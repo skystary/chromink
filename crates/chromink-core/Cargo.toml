@@ -1,0 +1,21 @@
+[package]
+name = "chromink-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+preview = ["dep:tiny-skia"]
+gpu = ["dep:wgpu", "dep:pollster"]
+
+[dependencies]
+bytemuck = "1"
+tiny-skia = {version="0.11.4",optional=true,default-features=false,features=["std","simd"]}
+imagequant = { path = "../../vendor/imagequant", default-features = false, features = ["std", "threads"] }
+quantette = { path = "../../vendor/quantette", default-features = false, features = ["threads"] }
+palette = { version = "0.7.6", default-features = false, features = ["alloc", "libm", "bytemuck"] }
+rayon = "1.10"
+image = { version = "0.24", default-features = false, features = ["png", "jpeg", "jpeg_rayon", "bmp", "webp", "gif", "tiff", "pnm", "tga"] }
+serde = { version = "1", features = ["derive"] }
+wgpu = { version = "0.20", optional = true, default-features = false, features = ["dx12", "metal", "wgsl"] }
+pollster = { version = "0.3", optional = true }

@@ -1,0 +1,179 @@
+[
+  {
+    "id": "tracing",
+    "type": "select",
+    "value": "potrace",
+    "values": [
+      [
+        "potrace",
+        "Potrace"
+      ],
+      [
+        "vecline",
+        "Vecline"
+      ]
+    ],
+    "name": "描摹方式",
+    "hint": "独立于减色算法；三种减色可与两种描摹任意组合。"
+  },
+  {
+    "id": "monoThreshold",
+    "name": "单色阈值",
+    "type": "select",
+    "value": "auto",
+    "values": [
+      [
+        "auto",
+        "Otsu 自动阈值"
+      ],
+      [
+        "fixed",
+        "固定亮度阈值"
+      ],
+      [
+        "adaptive",
+        "Bradley 局部阈值"
+      ]
+    ],
+    "hint": "Vecline 单色使用官方阈值流程。Otsu 根据亮度直方图选阈值；固定模式指定截止值；Bradley 根据邻域均值识别笔画。",
+    "scope": "monoVc"
+  },
+  {
+    "id": "monoCutoff",
+    "name": "单色截止亮度",
+    "type": "number",
+    "value": 128,
+    "min": 0,
+    "max": 255,
+    "step": 1,
+    "hint": "固定阈值，Rec.709 亮度不超过此值为黑色。透明像素不参与。",
+    "scope": "monoFixed"
+  },
+  {
+    "id": "vcMode",
+    "name": "几何模式",
+    "type": "select",
+    "value": "trace",
+    "values": [
+      [
+        "trace",
+        "曲线描摹"
+      ],
+      [
+        "auto",
+        "自动几何"
+      ],
+      [
+        "pixel",
+        "像素矩形"
+      ],
+      [
+        "exact",
+        "精确轮廓"
+      ]
+    ],
+    "scope": "vcTrace",
+    "hint": "曲线模式拟合贝塞尔；像素模式合并同色矩形；精确模式保留减色后的像素边界。自动按原图颜色与行密度选择矩形或曲线。不嵌入位图，精确指减色后的图像。"
+  },
+  {
+    "id": "vcPreset",
+    "name": "图像预设",
+    "type": "select",
+    "value": "default",
+    "values": [
+      [
+        "default",
+        "默认"
+      ],
+      [
+        "logo",
+        "标志"
+      ],
+      [
+        "lineart",
+        "线稿"
+      ],
+      [
+        "poster",
+        "海报"
+      ],
+      [
+        "photo",
+        "照片"
+      ],
+      [
+        "detailed",
+        "细节"
+      ],
+      [
+        "clean",
+        "清理"
+      ]
+    ],
+    "scope": "vcTrace",
+    "hint": "采用 Vecline 官方预设的描摹和预处理参数；保留独立的色数及减色算法。切换预设恢复该预设的关键参数，随后仍可微调。"
+  },
+  {
+    "id": "vcTolerance",
+    "name": "轮廓简化容差",
+    "type": "number",
+    "value": 0.4,
+    "min": 0,
+    "max": 10,
+    "step": 0.05,
+    "hint": "Douglas–Peucker 简化距离，内部位图像素单位；0 不进行距离简化。格点简化启用时改用格点带宽。",
+    "scope": "vcTrace"
+  },
+  {
+    "id": "vcFitError",
+    "name": "曲线拟合误差",
+    "type": "number",
+    "value": 0.4,
+    "min": 0,
+    "max": 10,
+    "step": 0.05,
+    "hint": "Schneider 贝塞尔拟合的像素误差预算，同时检查采样点和曲线到边界的偏差。较大值减少曲线段。",
+    "scope": "vcTrace"
+  },
+  {
+    "id": "vcOptimizeError",
+    "name": "曲线合并误差",
+    "type": "number",
+    "value": 0.4,
+    "min": 0,
+    "max": 10,
+    "step": 0.05,
+    "hint": "相邻曲线合并允许的像素偏差。与拟合误差相互独立，过大可能改变细节。",
+    "scope": "vcTrace"
+  },
+  {
+    "id": "vcMinArea",
+    "name": "小区域面积",
+    "type": "number",
+    "value": 0,
+    "min": 0,
+    "max": 100000,
+    "step": 1,
+    "hint": "Vecline 按最长公共边吸收面积小于此值的连通区域；最多两轮。0 保留全部，不使用 Potrace 的斑点参数。",
+    "scope": "vcTrace"
+  },
+  {
+    "id": "vcGradients",
+    "name": "渐变重建",
+    "type": "checkbox",
+    "value": false,
+    "hint": "先连接相邻的近色带，再拟合线性／径向渐变。只有实测误差同时低于平涂方案和指定预算时采用。关闭时只输出离散颜色。",
+    "scope": "vcTrace"
+  },
+  {
+    "id": "lloydIterations",
+    "name": "Lloyd 迭代次数",
+    "type": "number",
+    "value": 4,
+    "min": 0,
+    "max": 32,
+    "step": 1,
+    "hint": "Oklab Wu 初始化后，对完整颜色分布进行加权 Lloyd 聚类。0 仅使用 Oklab Wu；最多 32 轮，中心不变时提前结束。1 色墨层仍训练前景与纸面两类。",
+    "scope": "wl"
+  }
+]

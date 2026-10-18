@@ -1,0 +1,20 @@
+[package]
+name = "imagequant"
+version = "4.5.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+
+[features]
+default = ["std"]
+std = []
+threads = ["dep:rayon", "dep:thread_local", "std"]
+large_palettes = []
+no_std = ["dep:hashbrown"]
+_internal_c_ffi = []
+
+[dependencies]
+arrayvec = { version = "0.7.4", default-features = false }
+rgb = { version = "0.8.47", default-features = false, features = ["bytemuck"] }
+rayon = { version = "1.10", optional = true }
+thread_local = { version = "1.1.8", optional = true }
+hashbrown = { version = "0.15.4", optional = true, default-features = false }

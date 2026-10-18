@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chromink</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="window.css"><script src="library.js" defer></script><script src="algorithm-parameters.js" defer></script><script src="app.js" defer></script></head>
+<body>
+<header id="titlebar"><button id="background-logo" type="button" class="brand" aria-label="Chromink · 透明图片白底预览关闭" aria-pressed="false"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span></button><span id="result-parameters" class="header-parameters" hidden></span><div class="window-actions"><button id="minimize" title="最小化" aria-label="最小化"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><button id="maximize" title="最大化或还原" aria-label="最大化或还原"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1"/></svg></button><button id="close" title="关闭" aria-label="关闭"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></header>
+<main><button id="toggle-files" class="files-trigger" aria-label="文件库"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h7l2 2h9v13H3zM7 11h3v3H7zM14 11h3v3h-3zM7 17h10"/></svg></button>
+<nav class="queue" id="file-panel" aria-label="浮动文件库" hidden><div id="files"></div><p id="queue-empty">添加一张或多张图片，拖动文件到另一文件或分组上即可分组。</p><div class="library-actions"><button id="library-add" class="round-button" title="添加文件" aria-label="添加文件"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></button><button id="library-clear" class="round-button" title="清空文件库" aria-label="清空文件库"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></svg></button></div></nav>
+<section class="workspace" id="workspace" aria-label="图片预览">
+<div class="empty" id="empty" role="button" tabindex="0" aria-label="打开图片文件选择对话框"><div class="color-study" aria-hidden="true"><span></span><span></span><span></span><span></span></div><h1>让每一笔，都清晰。</h1><p>把扫描字帖、插画和图标转换为可缩放的 SVG。<br>点击空白区域或拖入图片，自动描摹。</p><small>支持 PNG、JPEG、BMP、WebP、TIFF、PDF 等格式</small></div>
+<div id="previews" hidden>
+<figure id="overlay-pane"><div class="canvas" id="overlay-canvas" role="slider" tabindex="0" aria-label="原图和矢量叠加比例，左右方向键调整" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><div class="image-stage" id="overlay-stage"><img decoding="async" draggable="false" id="overlay-original" alt="原图图层"></div><div class="original-layer" id="original-layer" hidden><canvas id="original-raster" aria-label="原图实际像素预览"></canvas></div><div class="vector-layer" id="vector-layer" hidden><canvas id="overlay-result" aria-label="SVG 可见区域预览"></canvas></div><div id="wipe-line" aria-hidden="true"></div><span id="original-size" class="wipe-size original-size"></span><span id="vector-size" class="wipe-size vector-size"></span></div></figure>
+</div>
+<button id="notifications" class="round-button notifications-trigger" hidden aria-label="消息通知" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5zM10 21h4"/></svg><span id="notification-dot" hidden></span></button>
+<section id="notification-panel" class="notification-panel" aria-label="消息通知" hidden><div class="notification-heading">消息通知<button id="clear-notifications" aria-label="清空消息">清空</button></div><div id="notification-list" role="log" aria-live="polite"></div><p id="notification-empty">暂无消息</p></section>
+<section id="notification-toast" class="notification-panel notification-toast" aria-label="新消息" hidden><div id="toast-content" aria-live="polite"></div></section>
+<div class="parameter-toolbar" role="toolbar" aria-label="描摹参数">
+<div class="toolbar-group" role="group" aria-label="基础参数"><button id="colors-button" class="parameter-button" type="button" data-field="colors"></button>
+<button id="prescale-button" class="parameter-button" type="button" data-field="prescale"></button>
+<button id="quantization-button" class="parameter-button" type="button" data-field="quantization"></button>
+<button id="dither-button" class="parameter-button" type="button" data-field="dither"></button>
+<button id="tracing-button" class="parameter-button" type="button" data-field="tracing"></button></div><div id="reduction-controls" class="toolbar-group algorithm-controls reduction-controls" role="group" aria-label="减色参数"><div class="algorithm-scroll" id="reduction-scroll"><button id="veclineIterations-button" class="parameter-button" type="button" data-field="veclineIterations"></button></div></div><div id="algorithm-controls" class="toolbar-group algorithm-controls tracing-controls" role="group" aria-label="描摹参数"><div class="algorithm-scroll" id="algorithm-scroll"><button id="despeckle-button" class="parameter-button" type="button" data-field="despeckle"></button><button id="smoothCorners-button" class="parameter-button" type="button" data-field="smoothCorners"></button><button id="optimizePaths-button" class="parameter-button" type="button" data-field="optimizePaths"></button></div><button id="save" class="round-button" title="左键快速保存 SVG；右键另存为" aria-label="左键快速保存 SVG；右键另存为" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l3 3v15H4V3zM8 3v7h8V3M8 21v-7h8v7"/></svg></button></div></div><div id="value-popover" class="value-popover" hidden><label id="value-name" for="value-input"></label><input id="value-input" type="number" step="any"><button id="value-apply" title="应用数值" aria-label="应用数值">✓</button></div>
+<div class="control-values" hidden aria-hidden="true">
+<select id="tracing"><option value="potrace">Potrace</option><option value="vecline">Vecline</option></select>
+<input id="colors" type="number" min="1" max="32" step="1" value="3" aria-label="色数">
+<select id="quantization"><option value="mc">Median cut</option><option value="vc">Vecline Lloyd</option><option value="wl">Oklab Wu + Lloyd</option></select>
+<input id="veclineIterations" type="number" min="0" max="32" step="1" value="4" aria-label="Vecline 精修次数">
+
+
+<input id="prescale" type="number" min="0.5" max="8" step="any" value="1" aria-label="描摹精度"><input id="despeckle" type="number" min="0" max="1000" step="1" value="2" aria-label="斑点过滤">
+<input id="smoothCorners" type="number" min="0" max="1.3" step="any" value="0" aria-label="转角平滑"><input id="optimizePaths" type="number" min="0" max="5" step="any" value="5" aria-label="路径优化">
+<select id="transparency"><option value="off">关闭</option><option value="white" selected>开启</option></select>
+<select id="dither"><option value="none">关闭</option><option value="floydsteinberg">Floyd–Steinberg</option><option value="riemersma">Riemersma</option></select>
+</div>
+</section>
+
+</main>
+</body></html>

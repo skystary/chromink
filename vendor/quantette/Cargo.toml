@@ -1,0 +1,50 @@
+[package]
+name = "quantette"
+version = "0.6.0"
+edition = "2024"
+rust-version = "1.88"
+description = "Fast and high quality image quantization and palette generation."
+repository = "https://github.com/IanManske/quantette"
+license = "MIT OR Apache-2.0"
+include = ["src"]
+keywords = ["quantization", "palette", "color", "dither"]
+categories = ["multimedia::images"]
+
+[features]
+default = ["threads", "image"]
+
+
+# Enable use of the Rust std lib
+std = ["wide/std", "num-traits/std"]
+
+# Exposes parallel versions of most algorithms.
+threads = ["rayon", "std"]
+
+# Enables integration with the `image` crate.
+image = ["dep:image", "std"]
+
+[dependencies]
+bitvec = { version = "1.0.1", default-features = false, features = ["alloc"] }
+bytemuck = { version = "1.24.0", features = ["derive", "min_const_generics", "extern_crate_alloc"] }
+num-traits = { version = "0.2.16", default-features = false, features = [
+  "libm",
+] }
+ordered-float = { version = "5.1.0", default-features = false }
+libm = { version = "0.2.11", default-features = false }
+wide = { version = "1.6.0", default-features = false }
+palette = { version = "0.7.6", default-features = false, features = [
+  "alloc",
+  "libm",
+  "bytemuck"
+] }
+image = { version = "0.25.0", default-features = false, optional = true }
+rayon = { version = "1.10.0", optional = true }
+rand = { version = "0.10.0", default-features = false, features = [
+  "alloc",
+], optional = true }
+ref-cast = "1.0.23"
+
+# for minimal-versions
+[target.'cfg(any())'.dependencies]
+tap = { version = "1.0.1", default-features = false, optional = true } # needed for bitvec
+

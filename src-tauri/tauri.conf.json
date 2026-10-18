@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Chromink",
+  "version": "0.9.6",
+  "identifier": "com.skystary.chromink",
+  "build": { "frontendDist": "../ui" },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [{ "title": "Chromink", "decorations": false, "shadow": false, "width": 1240, "height": 820, "minWidth": 900, "minHeight": 650 }],
+    "security": { "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src ipc: http://ipc.localhost" }
+  },
+  "bundle": { "active": false, "icon": ["icons/icon.ico", "icons/icon.png"] }
+}

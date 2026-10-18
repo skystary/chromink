@@ -1,0 +1,27 @@
+[workspace]
+members = ["crates/chromink-core", "src-tauri"]
+default-members = ["crates/chromink-core"]
+exclude = ["vendor/imagequant", "vendor/hayro-interpret", "vendor/quantette"]
+resolver = "2"
+
+[workspace.package]
+version = "0.9.6"
+edition = "2021"
+license = "GPL-3.0-or-later"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+# Algorithms and path preview: benchmarked throughput; application shell stays small.
+[profile.release.package.chromink-core]
+opt-level = 3
+[profile.release.package.imagequant]
+opt-level = 3
+[profile.release.package.quantette]
+opt-level = 3
+[profile.release.package.tiny-skia]
+opt-level = 3
+[profile.release.package.tiny-skia-path]
+opt-level = 3

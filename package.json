@@ -1,0 +1,14 @@
+{
+  "name": "chromink",
+  "version": "0.9.6",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build --no-bundle",
+    "tauri": "tauri",
+    "check": "node --check ui/app.js && node --check ui/library.js && node --check ui/algorithm-parameters.js"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  }
+}

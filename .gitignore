@@ -1,0 +1,9 @@
+/target/
+/node_modules/
+/src-tauri/gen/
+/output/
+/releases/
+/scripts/work/
+*.log
+.DS_Store
+.idea/
